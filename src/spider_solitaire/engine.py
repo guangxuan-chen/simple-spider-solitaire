@@ -4,13 +4,22 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
-from enum import IntEnum
+from enum import Enum, IntEnum
 from typing import Final
 
 NUM_COLUMNS: Final[int] = 10
 CARDS_PER_RANK: Final[int] = 8
 INITIAL_COLUMN_SIZES: Final[tuple[int, ...]] = (6, 6, 6, 6, 5, 5, 5, 5, 5, 5)
 ONE_SUIT: Final[str] = "S"
+COMPLETE_SEQUENCE_LENGTH: Final[int] = 13
+WIN_COMPLETED_SEQUENCES: Final[int] = 8
+
+
+class GameStatus(str, Enum):
+    """Simple game status values."""
+
+    IN_PROGRESS = "in_progress"
+    WON = "won"
 
 
 class Rank(IntEnum):
@@ -29,6 +38,23 @@ class Rank(IntEnum):
     JACK = 11
     QUEEN = 12
     KING = 13
+
+
+COMPLETE_SEQUENCE_ORDER: Final[tuple[Rank, ...]] = (
+    Rank.KING,
+    Rank.QUEEN,
+    Rank.JACK,
+    Rank.TEN,
+    Rank.NINE,
+    Rank.EIGHT,
+    Rank.SEVEN,
+    Rank.SIX,
+    Rank.FIVE,
+    Rank.FOUR,
+    Rank.THREE,
+    Rank.TWO,
+    Rank.ACE,
+)
 
 
 @dataclass(slots=True)
@@ -109,6 +135,8 @@ def deal_stock(state: GameState) -> None:
         card.face_up = True
         column.append(card)
 
+    remove_complete_sequences(state)
+
 
 def validate_move(state: GameState, move: Move) -> MoveResult:
     """Validate whether a tableau-to-tableau move is legal."""
@@ -185,13 +213,35 @@ def apply_move(state: GameState, move: Move) -> MoveResult:
     if source_column and not source_column[-1].face_up:
         source_column[-1].face_up = True
 
+    removed_count = remove_complete_sequences(state)
+    status = get_game_status(state).value
+
     return MoveResult(
         True,
         (
             f"Moved {len(moving_cards)} card(s) from column "
-            f"{move.source_column} to column {move.destination_column}."
+            f"{move.source_column} to column {move.destination_column}. "
+            f"Removed {removed_count} complete sequence(s). "
+            f"Status: {status}."
         ),
     )
+
+
+def remove_complete_sequences(state: GameState) -> int:
+    """Remove complete top sequences and update the completed counter."""
+    removed_total = 0
+    for column in state.tableau:
+        removed_total += _remove_complete_sequences_from_column(column)
+
+    state.completed_sequences += removed_total
+    return removed_total
+
+
+def get_game_status(state: GameState) -> GameStatus:
+    """Return current game status based on completed sequences."""
+    if state.completed_sequences >= WIN_COMPLETED_SEQUENCES:
+        return GameStatus.WON
+    return GameStatus.IN_PROGRESS
 
 
 def _is_valid_column_index(state: GameState, column_index: int) -> bool:
@@ -217,6 +267,34 @@ def _is_descending_sequence(cards: list[Card]) -> bool:
         if int(lower_card.rank) != int(upper_card.rank) + 1:
             return False
     return True
+
+
+def _remove_complete_sequences_from_column(column: list[Card]) -> int:
+    """Remove all complete top K->A sequences from one tableau column."""
+    removed = 0
+    while _is_complete_top_sequence(column):
+        del column[-COMPLETE_SEQUENCE_LENGTH:]
+        removed += 1
+        if column and not column[-1].face_up:
+            column[-1].face_up = True
+    return removed
+
+
+def _is_complete_top_sequence(column: list[Card]) -> bool:
+    """Return True if the top 13 cards form a complete face-up K->A run."""
+    if len(column) < COMPLETE_SEQUENCE_LENGTH:
+        return False
+
+    top_sequence = column[-COMPLETE_SEQUENCE_LENGTH:]
+    if any(not card.face_up for card in top_sequence):
+        return False
+
+    return all(
+        card.rank == expected_rank
+        for card, expected_rank in zip(
+            top_sequence, COMPLETE_SEQUENCE_ORDER, strict=False
+        )
+    )
 
 
 def _deal_initial_tableau(deck: list[Card]) -> list[list[Card]]:
