@@ -105,6 +105,38 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
   output was reviewed and adjusted to satisfy lint line-length constraints and
   to keep error messages explicit for invalid moves.
 
+### Record 7
+- Date: 2026-04-20
+- Task: Implement Phase-4 sequence removal and game completion checks.
+- How AI was used:
+  requested implementation for complete top-sequence detection/removal,
+  automatic sequence checks after move and stock deal, and win/status API.
+- What AI produced:
+  created and updated files:
+  - `src/spider_solitaire/engine.py`
+  - `src/spider_solitaire/__init__.py`
+  - `tests/test_engine_phase4.py`
+  and executed validation commands:
+  - `ruff check src tests`
+  - `mypy src tests`
+  - `pytest tests/`
+- How output was used/modified:
+  reviewed and adjusted to satisfy lint import ordering and line-length
+  constraints while preserving requested behavior.
+
+### Record 8
+- Date: 2026-04-20
+- Task: Add a root-level interactive debug script for manual testing.
+- How AI was used:
+  requested a simple local CLI to interact with engine logic for quick
+  debugging and demonstration.
+- What AI produced:
+  created and updated files:
+  - `debug_cli.py`
+  - `README.md` (interactive debugging usage section)
+- How output was used/modified:
+  integrated directly to support interactive testing outside unit tests.
+
 ## Notes
 
 - AI-assisted outputs were reviewed before acceptance.
