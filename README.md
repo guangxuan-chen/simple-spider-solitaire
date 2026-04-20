@@ -114,6 +114,24 @@ mypy $(git ls-files '*.py')
 pytest tests/
 ```
 
+## Interactive Debugging
+
+You can interact with current business logic in a local debug CLI:
+
+```bash
+python debug_cli.py
+```
+
+Available commands:
+
+1. `show` to print tableau and status
+2. `status` to print stock/completed/game status
+3. `new [seed]` to restart with optional deterministic seed
+4. `deal` to deal one card to each tableau column
+5. `move <src> <dst> <start_index>` to move by start index
+6. `movec <src> <dst> <card_count>` to move by card count
+7. `quit` or `exit` to stop
+
 ## Project Plan: Initial Issue Breakdown
 
 Since this is a solo project, use a smaller set of milestone-sized issues.

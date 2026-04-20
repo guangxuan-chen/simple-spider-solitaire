@@ -124,6 +124,19 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
   reviewed and adjusted to satisfy lint import ordering and line-length
   constraints while preserving requested behavior.
 
+### Record 8
+- Date: 2026-04-20
+- Task: Add a root-level interactive debug script for manual testing.
+- How AI was used:
+  requested a simple local CLI to interact with engine logic for quick
+  debugging and demonstration.
+- What AI produced:
+  created and updated files:
+  - `debug_cli.py`
+  - `README.md` (interactive debugging usage section)
+- How output was used/modified:
+  integrated directly to support interactive testing outside unit tests.
+
 ## Notes
 
 - AI-assisted outputs were reviewed before acceptance.
