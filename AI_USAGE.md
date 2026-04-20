@@ -67,6 +67,24 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
 - How output was used/modified:
   workflows were simplified and validated locally with `ruff` and `pytest`.
 
+### Record 5
+- Date: 2026-04-20
+- Task: Implement Phase-2 engine foundation.
+- How AI was used:
+  requested implementation of core models and initial deal/stock logic for
+  one-suit Spider Solitaire, plus acceptance-focused unit tests.
+- What AI produced:
+  created and updated files:
+  - `src/spider_solitaire/engine.py`
+  - `src/spider_solitaire/__init__.py`
+  - `tests/test_engine_phase2.py`
+  and executed validation commands:
+  - `ruff check src tests`
+  - `mypy src tests`
+  - `pytest tests/`
+- How output was used/modified:
+  code was reviewed and lint/type/test issues were corrected before finalizing.
+
 ## Notes
 
 - AI-assisted outputs were reviewed before acceptance.
