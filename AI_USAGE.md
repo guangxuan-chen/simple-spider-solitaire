@@ -1,0 +1,74 @@
+# AI Usage Log
+
+This document records generative AI usage for the BIOSTAT 821 final project, as required by the course policy.
+
+## Tool Information
+
+- Tool: Codex (GPT-5-based coding assistant in terminal)
+- Provider: OpenAI
+- Usage mode: prompt-response support for planning, documentation, and setup
+
+## Usage Records
+
+### Record 1
+- Date: 2026-04-20
+- Task: Brainstorm initial project README structure and issue planning scope.
+- How AI was used:
+  requested a README plan and suggested GitHub issue breakdown for a
+  simplified one-suit Spider Solitaire project.
+- What AI produced:
+  README section structure, issue decomposition suggestions, and issue
+  checklist fields.
+- How output was used/modified:
+  manually reviewed, then edited/replaced sections to match solo-project
+  scope and course requirements.
+
+### Record 2
+- Date: 2026-04-20
+- Task: Add dependency/library explanations and basic tech stack section.
+- How AI was used:
+  requested a concise explanation of runtime vs development libraries.
+- What AI produced:
+  README additions describing Python standard library usage and external
+  tools (`pytest`, `ruff`, `mypy`, `coverage`).
+- How output was used/modified:
+  integrated into README and refined for clarity.
+
+### Record 3
+- Date: 2026-04-20
+- Task: Complete Phase-1 repository setup.
+- How AI was used:
+  requested implementation of issue scope: project structure, config,
+  `.gitignore`, initial docs, and AI usage updates.
+- What AI produced:
+  created/updated files:
+  - `src/spider_solitaire/__init__.py`
+  - `tests/test_smoke.py`
+  - `requirements.txt`
+  - `requirements-test.txt`
+  - `pyproject.toml`
+  - `.gitignore`
+  - `README.md`
+  - `AI_USAGE.md`
+- How output was used/modified:
+  manually reviewed; further manual edits may follow in later commits.
+
+### Record 4
+- Date: 2026-04-20
+- Task: Simplify GitHub workflows.
+- How AI was used:
+  requested removal of unnecessary PR-status/comment automation and
+  reduction to basic checks/tests pipelines.
+- What AI produced:
+  updated workflow files:
+  - `.github/workflows/checks.yml` (simple lint + type-check job)
+  - `.github/workflows/tests.yml` (simple pytest job)
+  - removed `.github/workflows/report.yml` (EHR-specific report workflow)
+- How output was used/modified:
+  workflows were simplified and validated locally with `ruff` and `pytest`.
+
+## Notes
+
+- AI-assisted outputs were reviewed before acceptance.
+- Final responsibility for correctness and submission content remains with
+  the project author.
