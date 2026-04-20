@@ -53,6 +53,20 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
 - How output was used/modified:
   manually reviewed; further manual edits may follow in later commits.
 
+### Record 4
+- Date: 2026-04-20
+- Task: Simplify GitHub workflows.
+- How AI was used:
+  requested removal of unnecessary PR-status/comment automation and
+  reduction to basic checks/tests pipelines.
+- What AI produced:
+  updated workflow files:
+  - `.github/workflows/checks.yml` (simple lint + type-check job)
+  - `.github/workflows/tests.yml` (simple pytest job)
+  - removed `.github/workflows/report.yml` (EHR-specific report workflow)
+- How output was used/modified:
+  workflows were simplified and validated locally with `ruff` and `pytest`.
+
 ## Notes
 
 - AI-assisted outputs were reviewed before acceptance.
