@@ -85,6 +85,26 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
 - How output was used/modified:
   code was reviewed and lint/type/test issues were corrected before finalizing.
 
+### Record 6
+- Date: 2026-04-20
+- Task: Implement Phase-3 move validation and execution.
+- How AI was used:
+  requested implementation of move legality checks and state updates for
+  tableau-to-tableau moves, including input format, validation messages, and
+  execution behavior.
+- What AI produced:
+  created and updated files:
+  - `src/spider_solitaire/engine.py`
+  - `src/spider_solitaire/__init__.py`
+  - `tests/test_engine_phase3.py`
+  and executed validation commands:
+  - `ruff check src tests`
+  - `mypy src tests`
+  - `pytest tests/`
+- How output was used/modified:
+  output was reviewed and adjusted to satisfy lint line-length constraints and
+  to keep error messages explicit for invalid moves.
+
 ## Notes
 
 - AI-assisted outputs were reviewed before acceptance.
