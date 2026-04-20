@@ -1,5 +1,14 @@
 .DS_Store
 __pycache__
 .venv/
-*.tsv
 .python-version
+*.tsv
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.json
+htmlcov/
+dist/
+build/
+*.egg-info/

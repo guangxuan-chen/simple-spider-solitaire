@@ -1,0 +1,2 @@
+# Runtime dependencies for simple-spider-solitaire.
+# Intentionally minimal for Phase-1.
