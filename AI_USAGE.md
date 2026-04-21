@@ -4,7 +4,7 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
 
 ## Tool Information
 
-- Tool: Codex (GPT-5-based coding assistant in terminal)
+- Tool: GPT-5.3-Codex (GPT-5-based coding assistant in terminal)
 - Provider: OpenAI
 - Usage mode: prompt-response support for planning, documentation, and setup
 
@@ -136,6 +136,57 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
   - `README.md` (interactive debugging usage section)
 - How output was used/modified:
   integrated directly to support interactive testing outside unit tests.
+
+### Record 9
+- Date: 2026-04-20
+- Task: Implement Phase-5 minimal command-line interface.
+- How AI was used:
+  requested conversion of debug script into a minimal CLI layer that calls
+  engine APIs, including command parsing, friendly errors, and tests.
+- What AI produced:
+  created and updated files:
+  - `src/spider_solitaire/cli.py`
+  - `debug_cli.py` (wrapper entry script)
+  - `src/spider_solitaire/__init__.py`
+  - `tests/test_cli_phase5.py`
+  - `README.md`
+  and executed validation commands:
+  - `ruff check debug_cli.py src tests`
+  - `mypy src tests`
+  - `pytest tests/`
+- How output was used/modified:
+  command set and documentation were aligned to Phase-5 scope:
+  `show`, `move`, `deal`, `new`, `help`, `quit`.
+
+### Record 10
+- Date: 2026-04-20
+- Task: Restore `movec` command for card-count based movement.
+- How AI was used:
+  requested adding back a convenience CLI command to avoid manually counting
+  source start indexes during gameplay.
+- What AI produced:
+  updated files:
+  - `src/spider_solitaire/cli.py`
+  - `tests/test_cli_phase5.py`
+  - `README.md`
+- How output was used/modified:
+  integrated into Phase-5 CLI command set with tests for success and usage
+  error handling.
+
+### Record 11
+- Date: 2026-04-20
+- Task: Improve won-screen CLI experience and session summary.
+- How AI was used:
+  requested UI-level enhancements for victory output, including summary
+  metrics, quick options, and lightweight color styling.
+- What AI produced:
+  updated files:
+  - `src/spider_solitaire/cli.py`
+  - `tests/test_cli_phase5.py`
+  - `README.md`
+- How output was used/modified:
+  integrated and validated to keep business logic in engine while improving
+  CLI usability during post-win interaction.
 
 ## Notes
 

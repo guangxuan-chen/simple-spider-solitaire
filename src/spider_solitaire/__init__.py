@@ -1,5 +1,6 @@
 """Core package for the simple Spider Solitaire project."""
 
+from .cli import run_cli
 from .engine import (
     CARDS_PER_RANK,
     COMPLETE_SEQUENCE_LENGTH,
@@ -42,4 +43,5 @@ __all__ = [
     "new_game",
     "remove_complete_sequences",
     "validate_move",
+    "run_cli",
 ]

@@ -125,12 +125,18 @@ python debug_cli.py
 Available commands:
 
 1. `show` to print tableau and status
-2. `status` to print stock/completed/game status
-3. `new [seed]` to restart with optional deterministic seed
+2. `move <src> <dst> <start_index>` to move from source start index
+3. `movec <src> <dst> <count>` to move by card count
 4. `deal` to deal one card to each tableau column
-5. `move <src> <dst> <start_index>` to move by start index
-6. `movec <src> <dst> <card_count>` to move by card count
-7. `quit` or `exit` to stop
+5. `new [seed]` to restart with optional deterministic seed
+6. `help` to print command usage
+7. `quit` to stop
+
+When the game is won, the CLI shows a summary panel with:
+completed sequences, successful moves, invalid commands, elapsed time,
+and current seed.
+Quick win-screen shortcuts are also available:
+`n` (new random), `s` (same seed), `q` (quit).
 
 ## Project Plan: Initial Issue Breakdown
 
