@@ -26,6 +26,6 @@ jobs:
 
       - name: Run ruff and mypy
         run: |
-          ruff check src tests .github/workflows/diff_coverage.py
-          ruff format --check src tests .github/workflows/diff_coverage.py
-          mypy src tests .github/workflows/diff_coverage.py
+          ruff check debug_cli.py src tests .github/workflows/diff_coverage.py
+          ruff format --check debug_cli.py src tests .github/workflows/diff_coverage.py
+          mypy debug_cli.py src tests .github/workflows/diff_coverage.py

@@ -114,6 +114,19 @@ mypy $(git ls-files '*.py')
 pytest tests/
 ```
 
+## Testing Strategy
+
+The test suite includes both unit tests and integration-style tests:
+
+1. Unit tests:
+`test_engine_phase2.py`, `test_engine_phase3.py`, `test_engine_phase4.py`
+2. CLI behavior tests:
+`test_cli_phase5.py`
+3. Integration-style flow tests:
+`test_integration_phase6.py` (command-driven deal/move game flows)
+
+CI runs `ruff`, `mypy`, and `pytest` on every push and pull request.
+
 ## Interactive Debugging
 
 You can interact with current business logic in a local debug CLI:
