@@ -208,6 +208,21 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
   integration tests and docs were added to make phase-6 coverage explicit,
   while keeping gameplay feature scope unchanged.
 
+### Record 13
+- Date: 2026-04-20
+- Task: Refactor README into a complete, post-implementation project document.
+- How AI was used:
+  requested a full README rewrite aligned with the current finished state
+  (features, architecture, run/test instructions, CLI usage, CI, and course
+  documentation context).
+- What AI produced:
+  updated files:
+  - `README.md`
+  - `AI_USAGE.md`
+- How output was used/modified:
+  replaced planning-style README content with delivery-style documentation and
+  kept command examples consistent with the current repository setup.
+
 ## Notes
 
 - AI-assisted outputs were reviewed before acceptance.

@@ -1,97 +1,87 @@
-# simple-spider-solitaire
+# Simple Spider Solitaire
 
 Group member(s): Guangxuan Chen (solo project)
 
-## Project Overview
+Single-suit Spider Solitaire implemented as a Python library (`engine`) with a
+minimal command-line interface (`cli`).
 
-This repository contains the BIOSTAT 821 final project: a simplified
-single-suit `Spider Solitaire` implementation in Python.
+## Overview
 
-Primary goal:
-build a clean, testable Python library for game logic, then add an
-interface layer (CLI first) that is decoupled from core business logic.
+This project was built for BIOSTAT 821 and is now in a working, end-to-end
+state:
 
-## Software Architecture
+- Core game logic is implemented in `src/spider_solitaire/engine.py`.
+- A playable text CLI is implemented in `src/spider_solitaire/cli.py`.
+- Unit and integration-style tests cover core flows in `tests/`.
+- CI runs linting, formatting checks, type checking, and tests.
 
-The project follows a layered architecture:
+## Features
 
-1. Core library (`src/`):
-defines game state, rules, move validation, and win/loss logic.
-2. Interface layer (CLI, optional future GUI/API):
-reads user input and renders output, but does not implement game rules.
-3. Tests (`tests/`):
-validate the behavior of the core library independently of interface code.
+- 104-card one-suit deck (8 × A-K)
+- Deterministic shuffle with optional seed
+- Correct initial deal for 10 tableau columns (6/6/6/6/5/5/5/5/5/5)
+- Stock dealing (one card to each column)
+- Tableau move validation and execution
+- Two move styles in CLI:
+  - by start index: `move <src> <dst> <start_index>`
+  - by count: `movec <src> <dst> <count>`
+- Automatic complete-sequence (K->A) removal
+- Win detection after 8 completed sequences
+- Friendly CLI feedback and a win summary panel
 
-Design rule:
-all game rules must live in the core library, not in interface code.
+## Game Rules (Implemented Scope)
 
-## MVP Game Scope (Single-Suit Spider)
+- Only top cards are face up after initial deal.
+- A moved sequence must:
+  - come from one source column,
+  - be fully face up,
+  - be strictly descending by one rank.
+- Destination rule:
+  - destination top card must be exactly one rank higher than the moving base
+    card, or
+  - destination column may be empty.
+- After a valid move (and after stock deal), the engine checks for complete top
+  K->A sequences and removes them.
+- Game status is `in_progress` or `won`.
 
-1. 104 cards total (8 sets of A-K in one suit).
-2. 10 tableau columns.
-3. Initial deal: first 4 columns get 6 cards each, remaining 6 get 5.
-4. Only top cards are face up.
-5. Remaining cards are in stock and can be dealt in batches.
-6. Valid move: move a card/sequence onto a card exactly one rank higher.
-7. Any card/sequence may be moved to an empty column.
-8. Complete K->A sequences are removed automatically.
-9. Remove all 8 complete sequences to win.
+## Architecture
 
-## Out of Scope for MVP
+The project is intentionally layered:
 
-1. GUI
-2. Online multiplayer
-3. Animation/audio polish
+1. **Business logic layer** (`engine.py`)
+   - owns state, rules, move legality, sequence removal, win condition
+2. **Interface layer** (`cli.py`, `debug_cli.py`)
+   - parses commands, renders output, calls engine APIs
+   - does not duplicate game rules
+3. **Tests** (`tests/`)
+   - unit tests for engine and CLI functions
+   - integration-style tests for key gameplay flows
 
 ## Repository Structure
 
 ```text
 simple-spider-solitaire/
-├── src/                    # Core library (business logic)
-├── tests/                  # Unit/integration tests
-├── .github/workflows/      # CI workflows
-├── pyproject.toml          # ruff/mypy/pytest config
-├── AI_USAGE.md             # required generative AI usage log
+├── src/spider_solitaire/
+│   ├── engine.py          # game models + rule engine
+│   ├── cli.py             # interactive command handling + rendering
+│   └── __init__.py        # public package exports
+├── tests/                 # unit + integration-style tests
+├── .github/workflows/     # CI checks and test workflows
+├── debug_cli.py           # local entry script to play/test manually
+├── pyproject.toml         # ruff, mypy, pytest config
+├── requirements.txt       # runtime deps (currently minimal)
+├── requirements-test.txt  # pytest + coverage
+├── AI_USAGE.md            # required AI usage documentation
 └── README.md
 ```
 
-## Development Practices (Course Alignment)
+## Tech Stack
 
-1. Style consistency:
-use `ruff` for linting and formatting checks.
-2. Testing:
-write and maintain tests for core functionality; tests must pass in CI.
-3. Documentation:
-README must enable a newcomer to run code and tests without assistance.
-4. Collaboration:
-use GitHub issues for planning, and pull requests for code review.
-
-## Libraries Used
-
-The project keeps runtime dependencies minimal and uses external libraries
-mainly for development quality.
-
-### Runtime (Core Library + CLI)
-
-1. Python standard library:
-`dataclasses`, `typing`, `enum`, `random`, and `argparse`.
-2. Third-party runtime dependencies:
-none planned for the MVP.
-
-### Development, Testing, and Quality
-
-1. `pytest`: unit and integration testing.
-2. `ruff`: linting and formatting checks.
-3. `mypy`: static type checking.
-4. `coverage`: test coverage measurement.
-
-## Basic Tech Stack
-
-1. Language: Python 3.10+
-2. Project packaging/config: `pyproject.toml`
-3. Code quality: `ruff` + `mypy`
-4. Testing: `pytest` + `coverage`
-5. CI: GitHub Actions (`checks` + `tests`)
+- **Language**: Python 3.10.8 (pyenv + venv workflow)
+- **Runtime libs**: Python standard library only
+- **Quality tools**: Ruff, mypy
+- **Testing**: pytest, coverage
+- **CI**: GitHub Actions
 
 ## Local Setup
 
@@ -99,37 +89,13 @@ none planned for the MVP.
 pyenv local 3.10.8
 python -m venv .venv
 source .venv/bin/activate
-pip install --upgrade pip
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r requirements-test.txt
 pip install ruff mypy
 ```
 
-## Run Checks and Tests
-
-```bash
-ruff check $(git ls-files '*.py')
-ruff format --check $(git ls-files '*.py')
-mypy $(git ls-files '*.py')
-pytest tests/
-```
-
-## Testing Strategy
-
-The test suite includes both unit tests and integration-style tests:
-
-1. Unit tests:
-`test_engine_phase2.py`, `test_engine_phase3.py`, `test_engine_phase4.py`
-2. CLI behavior tests:
-`test_cli_phase5.py`
-3. Integration-style flow tests:
-`test_integration_phase6.py` (command-driven deal/move game flows)
-
-CI runs `ruff`, `mypy`, and `pytest` on every push and pull request.
-
-## Interactive Debugging
-
-You can interact with current business logic in a local debug CLI:
+## Run the Game (CLI)
 
 ```bash
 python debug_cli.py
@@ -137,49 +103,68 @@ python debug_cli.py
 
 Available commands:
 
-1. `show` to print tableau and status
-2. `move <src> <dst> <start_index>` to move from source start index
-3. `movec <src> <dst> <count>` to move by card count
-4. `deal` to deal one card to each tableau column
-5. `new [seed]` to restart with optional deterministic seed
-6. `help` to print command usage
-7. `quit` to stop
+- `show`
+- `move <src> <dst> <start_index>`
+- `movec <src> <dst> <count>`
+- `deal`
+- `new [seed]`
+- `help`
+- `quit`
 
-When the game is won, the CLI shows a summary panel with:
-completed sequences, successful moves, invalid commands, elapsed time,
-and current seed.
-Quick win-screen shortcuts are also available:
-`n` (new random), `s` (same seed), `q` (quit).
+Win-screen shortcuts:
 
-## Project Plan: Initial Issue Breakdown
+- `n` new random game
+- `s` restart with same seed
+- `q` quit immediately
 
-Since this is a solo project, use a smaller set of milestone-sized issues.
-Assign all issues to `Guangxuan Chen`.
+## Use Engine as a Library
 
-1. `chore: bootstrap project structure, dependencies, and CI setup`
-2. `feat(engine): implement core models and initial deal/stock logic`
-3. `feat(engine): implement move validation and move execution`
-4. `feat(engine): implement sequence removal and win/loss detection`
-5. `feat(cli): build minimal CLI interface decoupled from engine`
-6. `test/docs: add engine tests, usage docs, and AI usage log template`
+Example (from project root):
 
-For each issue, include:
-background, objective, acceptance criteria, out-of-scope notes, assignee(s),
-and linked PRs.
+```bash
+PYTHONPATH=src python -c "from spider_solitaire import new_game; s=new_game(2026); print(len(s.tableau), len(s.stock))"
+```
 
-## Pull Request Workflow
+Core public exports are re-exported in `src/spider_solitaire/__init__.py`,
+including `GameState`, `Move`, `new_game`, `apply_move`, `deal_stock`, and
+`get_game_status`.
 
-1. Open a branch from `main`.
-2. Link each PR to one issue.
-3. Ensure CI checks pass before merge.
-4. For major changes, optionally request instructor feedback via PR.
+## Quality Checks and Tests
 
-## Generative AI Usage Requirement
+Run all local checks:
 
-This project allows generative AI usage only with full documentation.
-Record all AI usage in `AI_USAGE.md`, including:
+```bash
+ruff check debug_cli.py src tests .github/workflows/diff_coverage.py
+ruff format --check debug_cli.py src tests .github/workflows/diff_coverage.py
+mypy debug_cli.py src tests .github/workflows/diff_coverage.py
+pytest tests/
+```
 
-1. tool name
-2. prompt/request summary
-3. output summary
-4. how the output was used or modified
+Optional coverage report:
+
+```bash
+coverage run -m pytest tests/
+coverage report -m
+```
+
+## CI
+
+Two GitHub Actions workflows are configured:
+
+- `checks.yml`: Ruff + mypy
+- `tests.yml`: pytest
+
+Both run on `push`, `pull_request`, and manual dispatch.
+
+## Documentation for Course Requirements
+
+- Project plan and implementation history are tracked via GitHub issues/PRs.
+- AI usage is documented in detail in `AI_USAGE.md`.
+- This repository is designed so a newcomer can run the project and tests with
+  the instructions above.
+
+## Current Status
+
+Core game engine and minimal CLI are complete for the scoped single-suit
+version. Remaining improvements are polish-oriented (UI/UX, additional
+commands, optional packaging/release hardening), not required for core gameplay.
