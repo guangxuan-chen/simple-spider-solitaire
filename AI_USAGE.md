@@ -4,7 +4,7 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
 
 ## Tool Information
 
-- Tool: Codex (GPT-5-based coding assistant in terminal)
+- Tool: GPT-5.3-Codex (GPT-5-based coding assistant in terminal)
 - Provider: OpenAI
 - Usage mode: prompt-response support for planning, documentation, and setup
 
@@ -172,6 +172,21 @@ This document records generative AI usage for the BIOSTAT 821 final project, as 
 - How output was used/modified:
   integrated into Phase-5 CLI command set with tests for success and usage
   error handling.
+
+### Record 11
+- Date: 2026-04-20
+- Task: Improve won-screen CLI experience and session summary.
+- How AI was used:
+  requested UI-level enhancements for victory output, including summary
+  metrics, quick options, and lightweight color styling.
+- What AI produced:
+  updated files:
+  - `src/spider_solitaire/cli.py`
+  - `tests/test_cli_phase5.py`
+  - `README.md`
+- How output was used/modified:
+  integrated and validated to keep business logic in engine while improving
+  CLI usability during post-win interaction.
 
 ## Notes
 

@@ -132,6 +132,12 @@ Available commands:
 6. `help` to print command usage
 7. `quit` to stop
 
+When the game is won, the CLI shows a summary panel with:
+completed sequences, successful moves, invalid commands, elapsed time,
+and current seed.
+Quick win-screen shortcuts are also available:
+`n` (new random), `s` (same seed), `q` (quit).
+
 ## Project Plan: Initial Issue Breakdown
 
 Since this is a solo project, use a smaller set of milestone-sized issues.

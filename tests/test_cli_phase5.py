@@ -2,8 +2,15 @@
 
 from __future__ import annotations
 
+import time
+
 from spider_solitaire import Card, GameState, Rank, new_game
-from spider_solitaire.cli import handle_command, render_state
+from spider_solitaire.cli import (
+    SessionStats,
+    handle_command,
+    render_state,
+    render_won_panel,
+)
 
 
 def test_help_and_show_commands() -> None:
@@ -50,6 +57,7 @@ def test_move_command_maps_to_engine_api_and_updates_state() -> None:
     assert outcome.show_state
     assert outcome.messages
     assert "Moved 2 card(s)" in outcome.messages[0]
+    assert outcome.move_applied
     assert [card.rank for card in state.tableau[1]] == [
         Rank.NINE,
         Rank.EIGHT,
@@ -116,6 +124,7 @@ def test_unknown_command_returns_friendly_message() -> None:
     state = new_game(seed=1)
     _, outcome = handle_command(state, "foobar")
     assert outcome.messages == ("Unknown command. Type `help`.",)
+    assert outcome.invalid_command
 
 
 def test_render_state_contains_status_and_tableau_lines() -> None:
@@ -129,6 +138,34 @@ def test_render_state_contains_status_and_tableau_lines() -> None:
     assert "Status:" in rendered
     assert "Tableau:" in rendered
     assert "0: XX 8" in rendered
+
+
+def test_render_won_panel_contains_summary_and_quick_options() -> None:
+    """Won panel should include summary metrics and n/s/q shortcuts."""
+    state = _make_state(source=[], destination=[])
+    state.completed_sequences = 8
+    stats = SessionStats(
+        started_at=time.monotonic() - 125.0,
+        move_count=31,
+        deal_count=5,
+        invalid_count=2,
+    )
+
+    panel = render_won_panel(
+        state=state,
+        stats=stats,
+        seed=2026,
+        use_color=False,
+    )
+
+    assert "YOU WON!" in panel
+    assert "Completed sequences : 8/8" in panel
+    assert "Successful moves    : 31" in panel
+    assert "Invalid commands    : 2" in panel
+    assert "Seed                : 2026" in panel
+    assert "[n] new random" in panel
+    assert "[s] same seed" in panel
+    assert "[q] quit" in panel
 
 
 def _make_state(source: list[Card], destination: list[Card]) -> GameState:
